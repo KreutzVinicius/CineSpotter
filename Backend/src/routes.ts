@@ -27,21 +27,21 @@ const findListByIdController = new FindListByIdController();
 const findRateByIdController = new FindRateByIdController();
 const avaliateWorkController = new AvaliateWorkController();
 
-routes.post("/client/", createClientController.handle);//
+routes.post("/client/", createClientController.handle);
 
-routes.post("/login/", authenticateClientController.handle);//
-routes.get("/client/lists", findAllListsController.handle);//
+routes.post("/login/", authenticateClientController.handle);
+routes.post("/client/lists", findAllListsController.handle);
 
 
-routes.get("/works/", findAllWorksController.handle); //
-routes.post("/works/id", findWorkByIdController.handle); //
+routes.get("/works/", findAllWorksController.handle);
+routes.post("/works/id", findWorkByIdController.handle);
 //to do works/genre
 
-routes.post("/works/rate", findRateByIdController.handle);//
+routes.post("/works/rate", findRateByIdController.handle);
 routes.post("/works/avaliaterate", avaliateWorkController.handle);
 
 
-routes.get("/lists/id", findListByIdController.handle);//
+routes.get("/lists/id", findListByIdController.handle);
 //
 
 export { routes };

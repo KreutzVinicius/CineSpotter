@@ -7,8 +7,18 @@ const store = createStore({
         return {
             works: [],
             work: {},
-            client: {},
+            idWork: {
+                ids: "",
+                listname: ""
+            },
+            client: {
+                username: localStorage.getItem("username"),
+                password: localStorage.getItem("password"),
+                isLoged: localStorage.getItem("isLoged"),
+                id: localStorage.getItem("id"),
+            },
             rate: {},
+            lists: [],
         }
     },
     mutations: {
@@ -23,25 +33,17 @@ const store = createStore({
         },
         updateClient(state, payload) {
             state.client = payload;
-        }
+        },
+        updateLists(state, payload) {
+            state.lists = payload;
+        },
+        updateIdWorks(state, payload) {
+            state.idWorks = payload;
+        },
 
 
     },
     actions: {
-        getWorks({ commit }) {
-            return new Promise((resolve, reject) => {
-                api
-                    .get("/works/")
-                    .then((response) => {
-                        commit('updateWorks', response.data);
-                        resolve(response.data);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        reject(reject);
-                    });
-            })
-        },
         authenticateClient({ commit }, client) {
             return new Promise((resolve, reject) => {
                 api.post("/login", client)
@@ -56,7 +58,34 @@ const store = createStore({
 
             })
         },
-
+        getWorks({ commit }) {
+            return new Promise((resolve, reject) => {
+                api
+                    .get("/works/")
+                    .then((response) => {
+                        commit('updateWorks', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    });
+            })
+        },
+        getWork({ commit }, idWork) {
+            return new Promise((resolve, reject) => {
+                api
+                    .post("/works/id", idWork)
+                    .then((response) => {
+                        commit('updateWork', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    });
+            })
+        },
         getWorkRate({ commit }, id) {
             return new Promise((resolve, reject) => {
                 api
@@ -71,6 +100,40 @@ const store = createStore({
                     })
             })
         },
+
+        getClientLists({ commit }, idClient) {
+            return new Promise((resolve, reject) => {
+                api
+                    .post("/client/lists", idClient)
+                    .then((response) => {
+                        commit('updateLists', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    })
+            })
+        },
+        getIdWorksByList({ commit }, idWorks) {
+            return new Promise((resolve, reject) => {
+                api
+                    .post("/lists/id", idWorks) // mudar pra pegar this.lists.id
+                    .then((response) => {
+                        commit('updateIdWorks', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    })
+            })
+        },
+    },
+    getters: {
+        getClient(state) {
+            return state.client
+        }
     }
 
 })

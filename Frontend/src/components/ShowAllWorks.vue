@@ -40,9 +40,6 @@ export default {
   async mounted() {
     const works = await this.$store.dispatch("getWorks");
     this.works = works;
-
-    this.client = this.$store.state.client;
-    console.log(this.client.isLoged);
   },
 };
 </script>

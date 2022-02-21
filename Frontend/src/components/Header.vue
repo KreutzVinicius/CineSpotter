@@ -12,11 +12,11 @@
       </div>
 
       <div class="header-items-menu">
-        <div v-if="client.isLoged">
+        <div class="header-items-authentication" v-if="isLoged">
           <router-link to="/mylists" class="header-item-menu"
             >My Lists</router-link
           >
-          <a href="" @click="logout">Logout</a>
+          <a href="" class="header-item-menu" @click="logout">Logout</a>
         </div>
 
         <div class="header-items-not-loged" v-else>
@@ -38,19 +38,39 @@ export default {
   data() {
     return {
       client: {},
-      work: {},
     };
   },
   mounted() {
-    this.client = this.$store.state.client;
+    if (localStorage.getItem("username")) {
+      this.client.username = localStorage.getItem("username");
+    }
+    if (localStorage.getItem("password")) {
+      this.client.password = localStorage.getItem("password");
+    }
+
+    if (localStorage.getItem("isLoged")) {
+      this.client.isLoged = localStorage.getItem("isLoged");
+    }
   },
+
   methods: {
-    loginClient() {
-      this.$router.push("/");
-    },
     logout() {
       this.$store.state.client = {};
+      localStorage.removeItem("username");
+      localStorage.removeItem("password");
+      localStorage.removeItem("isLoged");
+      localStorage.removeItem("id");
+      this.client.isLoged = false;
       this.$router.push("/");
+    },
+  },
+
+  computed: {
+    isLoged() {
+      var client = this.$store.getters.getClient;
+      if (client.isLoged) {
+        return true;
+      } else return false;
     },
   },
 };
@@ -83,8 +103,13 @@ export default {
   font-family: "Times New Roman", Times, serif;
   text-transform: uppercase;
   margin: 0 8px 0 8px;
+  display: flex;
 }
 .header-items-authentication {
+  display: flex;
+}
+
+.header-items-not-loged {
   display: flex;
 }
 </style>

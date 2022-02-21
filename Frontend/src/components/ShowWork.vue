@@ -27,7 +27,7 @@ export default {
   },
   mounted() {
     this.work = this.$store.state.work;
-    this.rate = JSON.parse(JSON.stringify(this.$store.state.rate));
+    this.rate = this.$store.state.rate;
   },
 
   computed: {
