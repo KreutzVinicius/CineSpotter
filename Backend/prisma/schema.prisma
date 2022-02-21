@@ -11,10 +11,11 @@ datasource db {
 }
 
 model Rate {
-  id       String  @id @default(uuid())
-  numRates Int
-  rate     Float
-  Works    Works[]
+  id          String  @id @default(uuid())
+  numRates    Int
+  rate        Float
+  avaliatedBy String?
+  Works       Works[]
 
   @@map("rate")
 }

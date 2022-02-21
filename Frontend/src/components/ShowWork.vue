@@ -2,29 +2,35 @@
   <div class="ShowWork">
     <h1>{{ work.name }}</h1>
     <img class="cover" v-bind:src="work.cover" />
-    {{ work.synopsis }}
-    <button @click="setTags">a</button>
+    <div class="synopsis">{{ work.synopsis }}</div>
+    <div class="genres">{{ setTags }}</div>
+    <div class="rating">
+      Nota: {{ getRate }} / 10
+      <button>Avaliar</button>
+    </div>
   </div>
 </template>
 
 <script>
-import api from "../services/api";
+// import api from "../services/api";
 
 export default {
   name: "ShowWork",
   el: "#ShowWork",
   components: {},
+  props: {},
   data() {
     return {
       work: {},
+      rate: {},
     };
   },
   mounted() {
-    api
-      .post("/works/id", { id: "2" }) // mudar para pegar o pedido de ShowAllWorks()
-      .then((response) => (this.work = response.data));
+    this.work = this.$store.state.work;
+    this.rate = JSON.parse(JSON.stringify(this.$store.state.rate));
   },
-  methods: {
+
+  computed: {
     setTags() {
       const ids = String(this.work.genreId).split(",");
       const genres = [
@@ -53,11 +59,23 @@ export default {
         }
       }
 
-      var elemento_pai = document.body;
-      var titulo = document.createElement("h1");
-      var texto = document.createTextNode(post);
-      titulo.appendChild(texto);
-      elemento_pai.appendChild(titulo);
+      return post;
+    },
+    // isAvaliated: function () {
+    //   const ids = String(this.rate.avaliatedBy).split(",");
+    //   for (let i = 0; i < ids.length; i++) {
+    //     if (ids[i] == idClient) {
+    //       return true;
+    //     }
+    //   }
+    //   return false;
+    // },
+    getRate() {
+      if (this.rate.numRates > 0) {
+        return this.rate.rate / this.rate.numRates;
+      } else {
+        return this.rate.rate;
+      }
     },
   },
 };
@@ -66,13 +84,6 @@ export default {
 <style scoped>
 h3 {
   margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  margin: 0 10px;
 }
 a {
   color: #42b983;

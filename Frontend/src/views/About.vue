@@ -9,7 +9,7 @@
 import ShowWork from "@/components/ShowWork.vue";
 
 export default {
-  name: "Home",
+  name: "About",
   components: {
     ShowWork,
   },

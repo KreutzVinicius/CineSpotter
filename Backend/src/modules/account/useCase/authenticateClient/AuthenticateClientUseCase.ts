@@ -13,7 +13,7 @@ export class AuthenticateClientUseCase {
         const client = await prisma.clients.findFirst({
             where: {
                 username
-            }
+            },
         })
         if (!client) {
             throw new Error("Username or password invalid!")
@@ -24,11 +24,6 @@ export class AuthenticateClientUseCase {
             throw new Error("Username or password invalid!")
         }
 
-        const token = sign({ username }, "8f84ff3b2d2442da8a4e4fd0f770dcb2", {
-            subject: client.id,
-            expiresIn: "1d",
-        });
-
-        return token;
+        return client;
     }
 }
