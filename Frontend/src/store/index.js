@@ -101,6 +101,20 @@ const store = createStore({
                     });
             })
         },
+        getWorkbyName({ commit }, work) {
+            return new Promise((resolve, reject) => {
+                api
+                    .post("/works/name", work)
+                    .then((response) => {
+                        commit('updateWork', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    });
+            })
+        },
         getWorkRate({ commit }, id) {
             return new Promise((resolve, reject) => {
                 api

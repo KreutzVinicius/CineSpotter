@@ -12,6 +12,10 @@
       </div>
 
       <div class="header-items-menu">
+        <!-- <form @submit="findWork">
+          <input type="text" v-model="name" />
+          <input type="submit" value="Submit" />
+        </form> -->
         <div class="header-items-authentication" v-if="isLoged">
           <router-link to="/mylists" class="header-item-menu"
             >My Lists</router-link
@@ -38,6 +42,8 @@ export default {
   data() {
     return {
       client: {},
+      name: "",
+      work: {},
     };
   },
   mounted() {
@@ -62,6 +68,21 @@ export default {
       localStorage.removeItem("id");
       this.client.isLoged = false;
       this.$router.push("/");
+    },
+
+    async findWork(work) {
+      work = {
+        name: this.name,
+      };
+      console.log(JSON.stringify(work));
+
+      await this.$store.dispatch("getWorkbyName", JSON.stringify(work));
+      console.log(JSON.stringify({ id: this.work.rateId }));
+      await this.$store
+        .dispatch("getWorkRate", JSON.stringify({ id: this.work.rateId }))
+        .then(() => {
+          this.$router.push("/work");
+        });
     },
   },
 

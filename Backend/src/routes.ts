@@ -4,6 +4,7 @@ import { AuthenticateClientController } from "./modules/account/useCase/authenti
 
 import { FindAllWorksController } from "./modules/works/useCases/findAllWorks/FindAllWorksController";
 import { FindWorkByIdController } from "./modules/works/useCases/findWorkById/FindWorkByIdController";
+import { FindWorkByNameController } from "./modules/works/useCases/FindWorkByName/FindWorkByNameController";
 import { AddWorkInListController } from "./modules/lists/useCases/addWorkInList/AddWorkInListController";
 import { RemoveWorkInListController } from "./modules/lists/useCases/RemoveWorkInList/RemoveWorkInListController";
 
@@ -24,6 +25,8 @@ const authenticateClientController = new AuthenticateClientController();
 
 const findAllWorksController = new FindAllWorksController();
 const findWorkByIdController = new FindWorkByIdController();
+const findWorkByNameController = new FindWorkByNameController();
+
 const addWorkInListController = new AddWorkInListController();
 const removeWorkInListController = new RemoveWorkInListController();
 
@@ -45,6 +48,7 @@ routes.put("/client/lists/removework", removeWorkInListController.handle)
 
 routes.get("/works/", findAllWorksController.handle);
 routes.post("/works/id", findWorkByIdController.handle);
+routes.post("/works/name", findWorkByNameController.handle);
 //to do works/genre
 
 routes.post("/works/rate", findRateByIdController.handle);

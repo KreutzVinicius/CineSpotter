@@ -9,6 +9,7 @@
           v-bind:src="work.cover"
           @click="setWork(work)"
         />
+        <br />
         {{ work.synopsis }}
       </li>
     </ul>
@@ -59,7 +60,10 @@ a {
   color: #42b983;
 }
 .cover {
-  width: 100%;
+  width: 35%;
   height: auto;
+}
+.showAllWorks {
+  display: flex;
 }
 </style>
