@@ -44,6 +44,21 @@ const store = createStore({
 
     },
     actions: {
+        createClient({ commit }, client) {
+            return new Promise((resolve, reject) => {
+                api
+                    .post("/client", client)
+                    .then((response) => {
+                        commit('updateClient', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    })
+
+            })
+        },
         authenticateClient({ commit }, client) {
             return new Promise((resolve, reject) => {
                 api.post("/login", client)
@@ -100,7 +115,20 @@ const store = createStore({
                     })
             })
         },
-
+        rateWork({ commit }, rate) {
+            return new Promise((resolve, reject) => {
+                api
+                    .put("/works/rateWork", rate)
+                    .then((response) => {
+                        commit('updateRate', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    })
+            })
+        },
         getClientLists({ commit }, idClient) {
             return new Promise((resolve, reject) => {
                 api
@@ -129,6 +157,34 @@ const store = createStore({
                     })
             })
         },
+        addWorksinList({ commit }, list) {
+            return new Promise((resolve, reject) => {
+                api
+                    .put("client/lists/work", list) // mudar pra pegar this.lists.id
+                    .then((response) => {
+                        commit('updateLists', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    })
+            })
+        },
+        removeWorksinList({ commit }, list) {
+            return new Promise((resolve, reject) => {
+                api
+                    .put("client/lists/removework", list) // mudar pra pegar this.lists.id
+                    .then((response) => {
+                        commit('updateLists', response.data);
+                        resolve(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(reject);
+                    })
+            })
+        }
     },
     getters: {
         getClient(state) {

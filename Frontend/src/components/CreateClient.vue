@@ -1,6 +1,6 @@
 <template>
   <div class="CreateClient">
-    <form @submit="postClient">
+    <form @submit="createClient">
       <label for="username">username:</label><br />
       <input type="text" v-model="username" /><br />
       <label for="password">password:</label><br />
@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import api from "../services/api";
 export default {
   name: "CreateClient",
   el: "#CreateClient",
@@ -21,17 +20,21 @@ export default {
   data() {
     return {
       works: [],
+      password: "",
+      username: "",
     };
   },
   mounted() {},
   methods: {
-    postClient: function () {
-      api
-        .post("/client", { username: this.username, password: this.password })
-        .then(() => {})
-        .catch((error) => {
-          console.log(error);
-        });
+    async createClient(client) {
+      client = {
+        username: this.username,
+        password: this.password,
+      };
+      console.log(JSON.stringify(client));
+      this.$store.dispatch("createClient", JSON.stringify(client)).then(() => {
+        this.$router.push("/");
+      });
     },
   },
 };
